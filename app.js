@@ -1,7 +1,9 @@
 var express = require('express');
-var PORT = process.env.PORT || 4000;
+
+var todosController = require("./controllers/todosController");
 var app = express();
 
+app.use("view engine", "ejs");
 app.use(express.static("public"));
 app.set("views", "./public");
 
@@ -11,16 +13,6 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.get("/", function (req, res) {
-    res.sendFile(process.cwd() + "/public/index.html");
-});
 
-app.get("/todos", function (req, res) {
-   res.json({
-       "todos" : ["grocery", "primark", "milk"]
-   });
-});
+todosController(app);
 
-app.listen(PORT, function () {
-    console.log("listening on port " + PORT);
-});
